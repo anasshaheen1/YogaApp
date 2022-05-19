@@ -1,0 +1,28 @@
+{
+  "dependencies": {
+    "secrets1": {
+      "ignored": "true",
+      "suggestion": "true",
+      "type": "secrets",
+      "connectionId": ""
+    },
+    "mssql1": {
+      "secretStore": null,
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/19095885/databases/YogaSystem",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:DefaultConnection"
+    },
+    "mssql2": {
+      "secretStore": null,
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/19095885/databases/YogaSystem",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:YogaAppContextConnection"
+    },
+    "mssql3": {
+      "secretStore": null,
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/19095885/databases/YogaSystem",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:UserDbContextConnection"
+    }
+  }
+}

@@ -1,0 +1,83 @@
+﻿@model IEnumerable<YogaApp.Models.Transaction>
+
+@{
+    ViewData["Title"] = "TransactionView";
+}
+
+<h1>TransactionView</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LocationId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TriggerdBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TriggerDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Instructor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Participant)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tstatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LocationId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TriggerdBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TriggerDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Instructor.InstructorId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Participant.ParticipantId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tstatus.TransactionStatusId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type.TransactionTypeId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Tid">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Tid">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Tid">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

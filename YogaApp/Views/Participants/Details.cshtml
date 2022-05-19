@@ -1,0 +1,260 @@
+﻿@model YogaApp.Controllers.ParticipantsController.ViewModel;
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h1>Yoga Participant</h1>
+
+<div>
+    <h4>Your Profile</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.thisParticipant.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.thisParticipant.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.thisParticipant.AboutMe)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.thisParticipant.AboutMe)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.thisParticipant.LastUpdatedOn)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.thisParticipant.LastUpdatedOn)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a class=" btn btn-primary" asp-action="Edit" asp-route-id="@Model?.thisParticipant.ParticipantId">Edit</a> |
+</div>
+
+
+
+
+
+
+<hr />
+<h4>Courses you are registered in:</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Course Title
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Required Expertise
+            </th>
+            <th>
+                Start Date
+            </th>
+            <th>
+                End date
+            </th>
+            <th>
+                Start Time
+            </th>
+            <th>
+                End Time
+            </th>
+            <th>
+                Sessions
+            </th>
+            <th>
+                Price per session
+            </th>
+            <th>
+                Status
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.thisParticipant.ClassParticipantLinks)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Class.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Class.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Class.RequiredExpertise)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Class.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Class.EndDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Class.StartTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Class.EndTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Class.SessionCount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Class.PricePerSession)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Class.Status.Status)
+                </td>
+                <td>
+                    <a asp-action="WithdrawFromCourse" asp-route-id="@item.Class.CourseId" class="btn btn-secondary btn-disabled">Withdraw from course</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+
+<br />
+
+<br />
+<hr />
+<h4>Available courses</h4>
+@if (Model.availableCourses.Count() == 0)
+{
+    <b>no new courses available to you at the moment.</b>
+}
+else
+{
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Course Title
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Required Expertise
+                </th>
+                <th>
+                    Start Date
+                </th>
+                <th>
+                    End date
+                </th>
+                <th>
+                    Start Time
+                </th>
+                <th>
+                    End Time
+                </th>
+                <th>
+                    Sessions
+                </th>
+                <th>
+                    Price per session
+                </th>
+                <th>
+                    Status
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.availableCourses)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RequiredExpertise)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SessionCount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PricePerSession)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status.Status)
+                    </td>
+                    <td>
+                        <a asp-action="RegisterInCourse" asp-route-id="@item.CourseId" class="btn btn-secondary btn-disabled">Register & Pay</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+
+
+    <br />
+    <hr />
+    <h4>Payments made by you:</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Amount
+                </th>
+                <th>
+                    Date
+                </th>
+                <th>
+                    Status
+                </th>
+                <th>
+                    Type
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.thisParticipant.Transactions)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Amount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TriggerDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Tstatus.TransactionStatus)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Type.TransactionType)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>

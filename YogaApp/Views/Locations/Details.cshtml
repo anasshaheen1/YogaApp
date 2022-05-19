@@ -1,0 +1,297 @@
+﻿@model YogaApp.Controllers.LocationsController.ViewModel;
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<h1>Location Admin Dashboard</h1>
+
+<div>
+    <h4>Location Information</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.thisLocation.Description)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.thisLocation.Description)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.thisLocation.OpeningTimes)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.thisLocation.OpeningTimes)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.thisLocation.ContactInfo)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.thisLocation.ContactInfo)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.thisLocation.AddressPostcode)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.thisLocation.AddressPostcode)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.thisLocation.AddressFull)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.thisLocation.AddressFull)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.thisLocation.LastModifiedBy)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.thisLocation.LastModifiedBy)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.thisLocation.LastModifiedDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.thisLocation.LastModifiedDate)
+        </dd>
+    </dl>
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.thisLocation.LocationId">Edit</a> 
+</div>
+    <hr />
+
+
+    <br/>
+        <hr />
+    <h4>Courses you are running in this location:</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Course Title
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Required Expertise
+                </th>
+                <th>
+                    Start Date
+                </th>
+                <th>
+                    End date
+                </th>
+                <th>
+                    Start Time
+                </th>
+                <th>
+                    End Time
+                </th>
+                <th>
+                    Sessions
+                </th>
+                <th>
+                    Price per session
+                </th>
+                <th>
+                    Capacity
+                </th>
+                <th>
+                    Currently enrolled
+                </th>
+                <th>
+                    Instructor
+                </th>
+                <th>
+                    Status
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.thisLocation.Courses)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RequiredExpertise)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SessionCount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PricePerSession)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Capacity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ClassParticipantLinks.Count)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.InstructorId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status.Status)
+                    </td>
+                    <td>
+                        @if( item.StatusId != 6){
+                        <a asp-action="CancelCourse" asp-route-id="@item.CourseId" class="btn btn-warning">Cancel Course</a>
+                        }
+                        &nbsp;&nbsp;
+                        <a asp-route-id="@item.CourseId" asp-controller="Courses" asp-action="Edit" class="btn btn-primary">Edit Course</a> |
+                        &nbsp;&nbsp;
+                        @if( item.StatusId == 5){
+                        <a asp-action="PayInstructorForCourse" asp-route-id="@item.CourseId" class="btn btn-secondary">Pay Instructor</a>
+                        }
+
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <br />
+     <a class="btn-primary btn" asp-action="Create" asp-controller="Courses" asp-route-id="@Model?.thisLocation.LocationId" >Add a new course</a>
+
+
+
+
+
+
+
+
+
+
+
+        <br />
+    <hr />
+    <h4>Instructors affiliated with this location:</h4>
+
+    
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+               Name
+            </th>
+            <th>
+                Heading
+            </th>
+            <th>
+                ContactInfo
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.thisLocation.LocationInstructorLinks) {
+            if (item.ApprovalStatusId == 3)
+                continue;
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Instructor.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Instructor.Heading)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Instructor.ContactInfo)
+            </td>
+            <td>
+                <a class="btn-warning btn" asp-action="RemoveInstructor" asp-route-id="@item.Id">Remove Affiliation</a> 
+                    @if (item.ApprovalStatusId == 1)
+                    {
+                        <a class="btn-primary btn" asp-action="ApproveInstructor" asp-route-id="@item.Id">Approve Affiliation</a> 
+                    }    
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+
+    <br />
+    <hr />
+    <h4>Financial Transactions for your location:</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Amount
+                </th>
+                <th>
+                    Date
+                </th>
+                <th>
+                    Status
+                </th>
+                <th>
+                    Type
+                </th>
+                <th>
+                    Participant
+                </th>
+                <th>
+                    Instructor
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.transactions)
+            {
+                <tr>
+                    <td>
+                    @if(item.TypeId == 1)
+                    {
+                        <b>+</b>
+                        }
+                    else
+                    {
+                        <b>-</b>
+                    }
+                        @Html.DisplayFor(modelItem => item.Amount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TriggerDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Tstatus.TransactionStatus)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Type.TransactionType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Participant.Name) 
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Instructor.Name)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+
+At completion pay for course
